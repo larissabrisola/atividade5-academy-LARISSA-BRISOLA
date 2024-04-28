@@ -18,7 +18,7 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".go2344853693");
-    cy.contains("Usuário salvo com sucesso").should('be.visible');
+    cy.contains("Usuário salvo com sucesso").should("be.visible");
   });
   it("Criar usuário - ERRO - Nome não pode ultrapassar 100 caracteres", () => {
     let name = Cypress._.repeat("jubileuieu", 11);
@@ -29,7 +29,9 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-jEACwC");
-    cy.contains("Informe no máximo 100 caracteres para o nome").should('be.visible');
+    cy.contains("Informe no máximo 100 caracteres para o nome").should(
+      "be.visible"
+    );
   });
   it("Criar usuário - ERRO - Email não pode ultrapassar 60 caracteres", () => {
     let name = faker.person.firstName();
@@ -40,7 +42,9 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-jEACwC"); // aviso
-    cy.contains("Informe no máximo 60 caracteres para o e-mail").should('be.visible');
+    cy.contains("Informe no máximo 60 caracteres para o e-mail").should(
+      "be.visible"
+    );
   });
   it("Criar usuário - ERRO - Email formato inválido", () => {
     let name = faker.person.firstName();
@@ -51,13 +55,16 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-jEACwC"); // aviso
-    cy.contains("Formato de e-mail inválido").should('be.visible');
+    cy.contains("Formato de e-mail inválido").should("be.visible");
   });
   it("Criar usuário - ERRO - Email já é utilizado.", () => {
-   cy.intercept('POST','https://rarocrud-80bf38b38f1f.herokuapp.com/api/v1/users',{
-    statusCode:422
-    
-    }).as('postError')
+    cy.intercept(
+      "POST",
+      "https://rarocrud-80bf38b38f1f.herokuapp.com/api/v1/users",
+      {
+        statusCode: 422,
+      }
+    ).as("postError");
 
     let name = faker.person.jobTitle();
     let email = faker.internet.email();
@@ -66,9 +73,10 @@ describe("Criação de usuário", () => {
     pageCreateUser.typeEmail(email);
     pageCreateUser.clickButtonSalvar();
 
-    cy.wait('@postError')
-    cy.get('#root > div.sc-eBMEME.kIxLSF > div > div').contains('Este e-mail já é utilizado por outro usuário.').should('be.visible');
-    
+    cy.wait("@postError");
+    cy.get("#root > div.sc-eBMEME.kIxLSF > div > div")
+      .contains("Este e-mail já é utilizado por outro usuário.")
+      .should("be.visible");
   });
   it("Criar usuário - ERRO - Email vazio", () => {
     let name = faker.person.jobTitle();
@@ -77,7 +85,7 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-jEACwC"); // aviso
-    cy.contains("O campo e-mail é obrigatório").should('be.visible');
+    cy.contains("O campo e-mail é obrigatório").should("be.visible");
   });
   it("Criar usuário - ERRO - Nome vazio", () => {
     let email = faker.internet.email();
@@ -86,15 +94,15 @@ describe("Criação de usuário", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-jEACwC"); // aviso
-    cy.contains("O campo nome é obrigatório").should('be.visible');
+    cy.contains("O campo nome é obrigatório").should("be.visible");
   });
   it("Criar usuário - ERRO - Todos os campos estão vazios", () => {
     pageCreateUser.clickButtonSalvar();
 
     cy.get(".sc-kOPcWz > :nth-child(3)");
-    cy.contains("O campo nome é obrigatório").should('be.visible');
+    cy.contains("O campo nome é obrigatório").should("be.visible");
 
     cy.get(".sc-kOPcWz > :nth-child(3)");
-    cy.contains("O campo e-mail é obrigatório").should('be.visible');
+    cy.contains("O campo e-mail é obrigatório").should("be.visible");
   });
 });
