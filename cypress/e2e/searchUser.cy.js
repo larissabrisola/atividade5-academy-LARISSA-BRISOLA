@@ -30,4 +30,23 @@ describe("Pesquisar usuário", () => {
 
     cy.get("#listaUsuarios").should("be.visible");
   });
+
+  it('Pesquisar usuario - usuário não encontrado', ()=>{
+    cy.intercept(
+      "GET",
+      "https://rarocrud-80bf38b38f1f.herokuapp.com/api/v1/search?value=123",
+      {
+        statusCode: 200,
+        body: [
+        ],
+      }
+    ).as("userEx");
+    cy.get(".sc-aXZVg.iYVcAu").type("123");
+
+    //
+    cy.get("h3")
+    .contains("Ops! Não existe nenhum usuário para ser exibido.")
+    .should("be.visible");
+  cy.get("p").contains("Cadastre um novo usuário").should("be.visible");
+  })
 });

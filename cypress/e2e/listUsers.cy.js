@@ -3,7 +3,7 @@ describe("Listar usuários", () => {
     cy.visit("https://rarocrud-frontend-88984f6e4454.herokuapp.com/users");
   });
 
-  it("Listar todos usuários cadastrados", () => {
+  it.only("Listar todos usuários cadastrados", () => {
     cy.intercept("GET", "", {
       statusCode: 200,
       body: [
